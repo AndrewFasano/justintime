@@ -1,16 +1,18 @@
 <?php
+# Webserver logs in /[state].log
 
 class Vote {
 	var $user;
 	var $vote;
 	var $timestamp;
-	var $cleanup = "echo 'delete me';";
+	var $log;
 
 	function Vote($user, $vote, $timestamp) {
 		$this->user = $user;
 		$this->vote = $vote;
 		$this->timestamp = $timestamp;
 		$this->rand = rand();
+		$this->log = "$user/$timestamp";
 	}
 
 	function pretty_date() {
@@ -23,7 +25,9 @@ class Vote {
 	}
 
 	function __destruct() {
-		eval($this->cleanup);
+		if ($this->log) { #ermergerd, bug goes here
+			print("Cleaning up vote from $this->user encrypted with " . base64_encode(file_get_contents("./keys/" . $this->log)));
+		}
 	}
 }
 
@@ -103,7 +107,6 @@ function can_verify($name) {
 	$last = get_verify($name);
 
 	return $now-$last > 60*60*100; # 1 hr
-
 }
 
 function generate_hash($username, $vote) {
