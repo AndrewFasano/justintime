@@ -18,7 +18,7 @@ class Voter {
 
 	function read_log() {
 		if ($this->log && file_exists($this->log)) {
-			return @file_get_contents($this->log);
+			return end(file($this->log));
 		}else{
 			return "File " . $this->log . " does not exist";
 		}
@@ -29,7 +29,7 @@ class Voter {
 			"\n\tAffiliation: {$this->affil}\n\tZip: {$this->zip}";
 
 		if ($this->verbose)
-			$out .= "\n\nVoter History:\n" . $this->read_log();
+			$out .= "\n\nLast update to voter:\n" . $this->read_log();
 
 		return $out;
 	}
