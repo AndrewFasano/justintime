@@ -1,6 +1,6 @@
 <?php  $page = __FILE__; include "header.php";?>
 
-<div class="container">
+<div class="container starter-template">
 <?php if(isset($_GET['id'])) { 
   include "main.php";
   $debug = isset($_GET['d3bug']) && $_GET['d3bug']=1337;

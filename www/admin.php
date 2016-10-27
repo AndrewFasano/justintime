@@ -1,6 +1,6 @@
 <?php  $page = __FILE__; include "header.php";?>
 
-<div class="container">
+<div class="container starter-template">
 
 <?php if(isset($_POST['password'])) {
 $password = trim(file_get_contents("./admin_password")) or html_die("no admin password set");

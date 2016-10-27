@@ -1,6 +1,6 @@
 <?php  $page = __FILE__; include "header.php";?>
 
-<div class="container">
+<div class="container starter-template">
 <?php if(isset($_POST['name']) &&
         isset($_POST['affiliation']) &&
         isset($_POST['zip']) &&
