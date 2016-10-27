@@ -1,6 +1,10 @@
 <?php
 date_default_timezone_set('America/New_York');
 
+function custom_die($msg) {
+  die("<div class=\"alert alert-danger\" role=\"alert\">Error: $msg</div>");
+}
+
 function safe_string($s) {
 	# Spaces/alphanumeric and under 20 chars
 	if (strlen($s) > 20) return False;
@@ -16,7 +20,7 @@ function create_key($user) {
 	}
 
 	if (file_exists($dir) == false) {
-		mkdir($dir, 0700, true);
+		mkdir($dir, 0700, true) or die("Couldn't create data directory for $user");
 	}
 
 	$key = openssl_random_pseudo_bytes(64);
@@ -36,7 +40,7 @@ function get_key($user) {
 }
 
 function get_system_key() {
-	$f = "./data/system_key";
+	$f = "./system_key";
 	if (file_exists($f)) {
 		$key = file_get_contents($f);
 	} else {

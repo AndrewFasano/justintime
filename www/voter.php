@@ -26,7 +26,7 @@ class Voter {
 
 	function __toString() {
 		$out = "Voter registration for {$this->name}:\n\tAddress: {$this->addr}" .
-			"\n\taffiliation: {$this->affil}\n\tZip: {$this->zip}";
+			"\n\tAffiliation: {$this->affil}\n\tZip: {$this->zip}";
 
 		if ($this->verbose)
 			$out .= "\n\nVoter History:\n" . $this->read_log();
