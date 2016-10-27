@@ -3,18 +3,18 @@
 <div class="container starter-template">
 
 <?php if(isset($_POST['password'])) {
-$password = trim(file_get_contents("./admin_password")) or html_die("no admin password set");
+$password = trim(file_get_contents("../admin_password")) or html_die("no admin password set");
 
   if (hash_equals($password, $_POST['password'])) {
   ?>
   <div class="alert alert-success">Successful authentication</div>
   <div class="page-header"><h1>System logs</h1></div>
   <?php
-    $logs = file_get_contents("./logs");
+    $logs = file_get_contents("../logs");
     $logs = str_replace("\n", "<br>", $logs);
     print($logs);
   }else{
-    print("'$password' != '" . $_POST['password'] . "'");
+    //print("'$password' != '" . $_POST['password'] . "'");
    ?>
     <div class="alert alert-danger">Bad authentication</div>
   <?php }

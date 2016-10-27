@@ -7,7 +7,7 @@ function create_voter_id($voter) {
 	$vote_s = serialize($voter);
 	$user_key = create_key($voter->name) or html_die("Couldn't create key for user - account already created <br>");
 
-	$date = (new DateTime())->format('m/d/y h:m');
+	$date = (new DateTime())->format('m/d/y H:i');
 	file_put_contents($voter->log, "Registered {$voter->name} at $date" . PHP_EOL, FILE_APPEND) or html_die("Couldn't write to user log");
 
 	$vote_s_sig = hash_hmac("sha512", $vote_s, $user_key);

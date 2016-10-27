@@ -40,7 +40,7 @@ function get_key($user) {
 }
 
 function get_system_key() {
-	$f = "./system_key";
+	$f = "../system_key";
 	if (file_exists($f)) {
 		$key = file_get_contents($f);
 	} else {
@@ -54,7 +54,7 @@ function is_test_voter($name) {
 	$f = "./data/$name/debug";
 	if (file_exists($f)) {
 		$debug_timestamp = file_get_contents($f);
-		$debug_after = DateTime::createFromFormat('m/d/y h:m', $debug_timestamp);
+		$debug_after = DateTime::createFromFormat('m/d/y H:i', $debug_timestamp);
 
 		$now = new DateTime();
 		if ($now < $debug_after) {
@@ -69,7 +69,7 @@ function mark_test_voter($name, $raw_date=null) {
 	if (file_exists($f)) return;
 
 	if (!isset($raw_date)) $raw_date = new DateTime();
-	$date = $raw_date->format('m/d/y h:m');
+	$date = $raw_date->format('m/d/y H:i');
 
 	file_put_contents($f, $date) or die("Couldn't mark $name as test voter" . PHP_EOL);
 	chmod($f, 0400);
