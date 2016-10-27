@@ -36,7 +36,7 @@ function get_key($user) {
 }
 
 function get_system_key() {
-	$f = "./system_key";
+	$f = "./data/system_key";
 	if (file_exists($f)) {
 		$key = file_get_contents($f);
 	} else {
