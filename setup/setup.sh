@@ -26,6 +26,6 @@ EOF
 service apache2 restart
 
 rm /var/www/html/index.html
-cp -r www/* /var/www/.
+cp -r files/* /var/www/.
 chmod o+w /var/www/html/data
 chown root:root -R /var/www

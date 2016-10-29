@@ -1,5 +1,5 @@
 <?php
-include "vars.php";
+include "util.php";
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -29,19 +29,6 @@ include "vars.php";
   </head>
 
   <body>
-
-<?php
-$this_page = end(explode("/", $page));
-
-function make_page($page, $path, $name) {
-	if ($page == $path || ($page == "/" && $path == "index.php")) {
-		return "<li class=\"active\"><a href=\"#\">$name</a></li>";
-	} else {
-		return "<li><a href=\"$path\">$name</a></li>";
-	}
-}
-?>
-
 <nav class="navbar navbar-default navbar-fixed-top">
   <div class="container">
 	<div class="navbar-header">
@@ -57,10 +44,11 @@ function make_page($page, $path, $name) {
 	  <ul class="nav navbar-nav">
 
 		<?php
-		echo make_page($this_page, "index.php","Home");
-		echo make_page($this_page, "register.php","Registration");
-		echo make_page($this_page, "check_reg.php","Check Registration");
-		echo make_page($this_page, "admin.php","Management"); ?>
+		$this_page = end(explode("/", $page));
+		echo menu_link($this_page, "index.php","Home");
+		echo menu_link($this_page, "register.php","Registration");
+		echo menu_link($this_page, "check_reg.php","Check Registration");
+		echo menu_link($this_page, "admin.php","Management"); ?>
 	  </ul>
 	</div><!--/.nav-collapse -->
   </div>

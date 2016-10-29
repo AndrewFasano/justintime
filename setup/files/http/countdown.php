@@ -4,7 +4,7 @@
   </head>
 
 <?php
-  include "vars.php";
+  include "util.php";
   $now = time();
   if ($has_ended) {
     print("<div style=\"text-align: center\">Registration is closed</div>");

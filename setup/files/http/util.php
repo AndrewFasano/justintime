@@ -1,5 +1,18 @@
 <?php
+$STATE="Massachusetts";
+$STATE_SHORT = "MA";
+$end = 1478415600;
+$has_ended = $end < time();
+
 date_default_timezone_set('America/New_York');
+
+function menu_link($page, $path, $name) {
+	if ($page == $path || ($page == "/" && $path == "index.php")) {
+		return "<li class=\"active\"><a href=\"#\">$name</a></li>";
+	} else {
+		return "<li><a href=\"$path\">$name</a></li>";
+	}
+}
 
 function custom_die($msg) {
   die("<div class=\"alert alert-danger\" role=\"alert\">Error: $msg</div>");
