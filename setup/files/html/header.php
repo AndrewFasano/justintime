@@ -1,3 +1,6 @@
+<?php
+  require_once("util.php");
+?>
 <!DOCTYPE html>
 <html lang="en">
   <head>
@@ -37,7 +40,6 @@
       <div id="navbar" class="collapse navbar-collapse">
         <ul class="nav navbar-nav">
 <?php
-          require_once("util.php");
           $this_page = end(explode("/", $page));
           echo menu_link($this_page, "index.php","Home");
           echo menu_link($this_page, "register.php","Registration");
