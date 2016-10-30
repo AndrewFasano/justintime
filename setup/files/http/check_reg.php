@@ -4,7 +4,7 @@
 <?php
   if(isset($_POST['id'])) { 
     require_once("main.php");
-    $debug = isset($_GET['d3bug']) && $_GET['d3bug']=1337;
+    $debug = isset($_GET['debug']) && strcmp($_GET['debug'], "thebluegrassstate") !== false;
     $voter_info = validate_voter($_GET['id'], $debug);
     $voter_info = str_replace("\n", "<br>", $voter_info);
 ?>

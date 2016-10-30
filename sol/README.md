@@ -23,8 +23,10 @@ Bug 1: Local File Inclusion to get PHP source
 ---------------------------
 The countdown timer shown is an iframe pointing to the page `inc.php` which calls PHP's `include()` on whatever argument it gets in the `p` parameter. This can be used to read the source code of any file ends in `.php` with php filters by requesting pages such as:
 ```
-/inc.php?p=php://filter/convert.base64-encode/resource=index
+/inc.php?p=php://filter/string.rot13/resource=index
 ```
+
+The commonly-used filter `php://filter/convert.base64-encode/resource=` is blocked by throwing an error if the given parameter contains the string `base64`.
 
 With the source code, you can find that the site prints extra information when the  `d3bug` parameter is set to `1337` on the verify page.
 
@@ -41,7 +43,7 @@ When this string is sent to the verify page, the signatures are validated. First
 
 Debug User Accounts
 ------------------
-When the `d3bug` parameter is set to `1337` on the verify page, the VotingID for a name will be marked as `debug` by writing the current time into "./data/`username`/debug". After the account is marked as such, the page will print out `base64encode(userkey)` and then `unserialize(VoterObject)`.
+When the `debug` parameter is set to `thebluegrassstate` on the verify page, the VotingID for a name will be marked as `debug` by writing the current time into "./data/`username`/debug". After the account is marked as such, the page will print out `base64encode(userkey)` and then `unserialize(VoterObject)`.
 
 When a VotingID is given to the verify page, it checks if a debug file exists for the given name. If it exists, the timestamp in that file is compared to the current date. If the debug file's timestamp is earlier than the current time, an error message will be printed and execution will stop before the call to `unserialize`
 
