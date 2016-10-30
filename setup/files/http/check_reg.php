@@ -4,8 +4,8 @@
 <?php
   if(isset($_POST['id'])) { 
     require_once("main.php");
-    $debug = isset($_GET['debug']) && strcmp($_GET['debug'], "thebluegrassstate") !== false;
-    $voter_info = validate_voter($_GET['id'], $debug);
+    $debug = isset($_GET['debugpw']) && strcmp($_GET['debugpw'], "thebluegrassstate") !== false;
+    $voter_info = validate_voter($_POST['id'], $debug);
     $voter_info = str_replace("\n", "<br>", $voter_info);
 ?>
     <div class="panel panel-info">
@@ -19,7 +19,7 @@
       <form method=POST>
         <div class="form-group">
           <label for="id">ID</label>
-          <textarea rows="5" class="form-control" name="id" id="id" required placeholder="<?php if (isset($_GET['id'])) print($_GET['id']); ?> "></textarea>
+          <textarea rows="5" class="form-control" name="id" id="id" required><?php if (isset($_GET['id'])) print($_GET['id']); ?></textarea>
         </div>
         <button type="submit" class="btn btn-primary">Check</button>
       </form>
