@@ -1,67 +1,53 @@
 <?php
-include "util.php";
-include "voter.php";
+require_once("voter.php");
+require_once("util.php");
 
 function create_voter_id($voter) {
-	# Serialize is unsafe without hmac 
-	$vote_s = serialize($voter);
-	$user_key = create_key($voter->name) or html_die("Couldn't create key for user - account already created <br>");
+  $vote_s = serialize($voter);
+  $user_key = create_key($voter->name) or html_die("Couldn't create key for user - account already created <br>");
 
-	$date = (new DateTime())->format('m/d/y H:i');
-	file_put_contents($voter->log, "Registered {$voter->name} at $date" . PHP_EOL, FILE_APPEND) or html_die("Couldn't write to user log");
+  $date = (new DateTime())->format('m/d/y H:i');
+  file_put_contents($voter->log, "Registered {$voter->name} at $date" . PHP_EOL, FILE_APPEND) or html_die("Couldn't write to user log");
 
-	$vote_s_sig = hash_hmac("sha512", $vote_s, $user_key);
+  $vote_s_sig = hash_hmac("sha512", $vote_s, $user_key);
 
-	$system_key = get_system_key() or html_die("couldn't get system key");;
-	$name_sig = hash_hmac("sha512", $voter->name, $system_key);
+  $system_key = get_system_key() or html_die("couldn't get system key");;
+  $name_sig = hash_hmac("sha512", $voter->name, $system_key);
 
-	return json_encode([$vote_s, $vote_s_sig, $voter->name, $name_sig]);
+  return json_encode([$vote_s, $vote_s_sig, $voter->name, $name_sig]);
 }
 
 function generate_voter($name, $addr, $affil, $zip) {
-	safe_string($name)  or html_die("Bad name");
-	safe_string($addr)  or html_die("Bad address");
-	safe_string($affil) or html_die("Bad affiliation");
-	safe_string($zip)   or html_die("Bad zip");
+  safe_string($name)  or html_die("Bad name");
+  safe_string($addr)  or html_die("Bad address");
+  safe_string($affil) or html_die("Bad affiliation");
+  safe_string($zip)   or html_die("Bad zip");
 
-	$v = new Voter($name, $addr, $affil, $zip);
+  $v = new Voter($name, $addr, $affil, $zip);
 
-	return base64_encode(create_voter_id($v));
+  return base64_encode(create_voter_id($v));
 }
 
 function validate_voter($blob, $debug=False) {
-	$unb64 = base64_decode($blob) or html_die("Could not decode base64");
-	list($vote_s, $vote_s_sig, $name, $name_sig) = json_decode($unb64) or html_die("Could not decode json");
-	$system_key = get_system_key();
-	$valid_name_sig = hash_hmac("sha512", $name, $system_key);
-	hash_equals($valid_name_sig, $name_sig) or html_die("Bad signature for name");
+  $unb64 = base64_decode($blob) or html_die("Could not decode base64");
+  list($vote_s, $vote_s_sig, $name, $name_sig) = json_decode($unb64) or html_die("Could not decode json");
 
-	$user_key = get_key($name);
-	if (is_test_voter($name)) {
-		html_die("$name is a testing account - it can't be used to vote");
-	}
-	if ($debug) {
-		mark_test_voter($name);
-		print("<pre>DEBUG: User signed with key " . base64_encode($user_key) . "</pre>");
-	}
+  $system_key = get_system_key();
+  $valid_name_sig = hash_hmac("sha512", $name, $system_key);
+  hash_equals($valid_name_sig, $name_sig) or html_die("Bad signature for name");
 
-	$valid_vote_s_sig = hash_hmac("sha512", $vote_s, $user_key);
-	hash_equals($valid_vote_s_sig, $vote_s_sig) or html_die("Bad signature for Voter object");
+  $user_key = get_key($name);
+  if (is_test_voter($name)) {
+    html_die("$name is a testing account - it can't be used to vote");
+  }
+  if ($debug) {
+    mark_test_voter($name);
+    print("<pre>DEBUG: User signed with key " . base64_encode($user_key) . "</pre>");
+  }
 
-	# hmac validations passed- vote_s is unmodified so it's safe to unserialize
-	$voter = unserialize($vote_s, ["Voter"]);
-	return $voter;
+  $valid_vote_s_sig = hash_hmac("sha512", $vote_s, $user_key);
+  hash_equals($valid_vote_s_sig, $vote_s_sig) or html_die("Bad signature for Voter object");
+
+  $voter = unserialize($vote_s, ["Voter"]);
+  return $voter;
 }
-
-function test() {
-	$voter_id = (generate_voter("andrew", "addr", "dem", "12345"));
-	print($voter_id . PHP_EOL . PHP_EOL);
-	print(validate_voter($voter_id) . PHP_EOL);
-	print(validate_voter($voter_id) . PHP_EOL);
-
-	print(validate_voter($voter_id, true) . PHP_EOL);
-
-	print(PHP_EOL . "Normal" . PHP_EOL);
-	print(validate_voter($voter_id) . PHP_EOL);
-}
-?>
