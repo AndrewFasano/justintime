@@ -1,9 +1,4 @@
 <?php
-$STATE="Kentucky";
-$STATE_SHORT = "KY";
-$end = 1478415600;
-$has_ended = $end < time();
-
 date_default_timezone_set('America/New_York');
 
 function menu_link($page, $path, $name) {
@@ -70,10 +65,9 @@ function is_test_voter($name) {
     $debug_after = DateTime::createFromFormat('m/d/y H:i', $debug_timestamp);
 
     $now = new DateTime();
-    if ($now > $debug_after) {
+    if ($now >= $debug_after) {
       return True;
     }
-    #TODO: compare is wrong?
   }
   return False;
 }
@@ -91,5 +85,5 @@ function mark_test_voter($name, $raw_date=null) {
   file_put_contents("./data/$name/log", "Marked $name as test voter effective $date" . PHP_EOL, FILE_APPEND);
 
 }
-
+require_once("vars.php");
 ?>

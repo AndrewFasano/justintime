@@ -50,4 +50,14 @@
       </div><!--/.nav-collapse -->
       </div>
     </nav>
+
+<?php
+    if ($has_ended) {
+?>
+    <div class="alert alert-danger">You missed your chance to register to vote</div>
+<?php
+    include("footer.php");
+    die("<!-- disabled -->");
+    }
+?>
     <div class="alert alert-info"><iframe src="inc.php?p=countdown" style="border: none; width: 500px; height: 3em; display:block; margin: 0 auto; "></iframe></div>

@@ -20,7 +20,7 @@
         <ol class="list-group">
           <li class="list-group-item">24 hours a day</li>
           <li class="list-group-item">7 days a week</li>
-          <li class="list-group-item">Until registration closes at 2AM (Eastern) November 6</li>
+          <li class="list-group-item">Until registration closes at 8AM (Eastern) November 6</li>
         </ol>
       </div>
     </div>
