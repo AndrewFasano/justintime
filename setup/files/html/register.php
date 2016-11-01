@@ -12,9 +12,7 @@
     <div class="alert alert-success">You registered!</div>
     <div class="page-header"><h1>Voter ID</h1></div>
     <p>Bring a copy of this ID for election day.</p>
-    <div class="well" style="overflow-wrap: break-word">
-      <?= $voter_id ?>
-    </div>
+    <div class="well" style="overflow-wrap: break-word"><?= $voter_id ?></div>
     <p>You can confirm your ID is valid <a href="/check_reg.php?id=<?=$voter_id?>">here</a></p>
 
 <?php
