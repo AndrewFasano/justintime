@@ -8,11 +8,8 @@ $now = time();
 if ($has_ended) {
   print("<div style=\"text-align: center\">Registration is closed</div>");
 }else{
-  $delta = $end - $now;
-  $days = intdiv($delta, (60*60*24));
-  $hours = intdiv($delta, (60*60))%24;
-  $min = intdiv($delta, (60))%60;
-  print("<div style=\"text-align: center\">$days days, $hours hours, and $min minutes until registration closes</div>");
+  $delta = date_diff(new DateTime(), $end);
+  print($delta->format("<div style=\"text-align: center\">%d days, %h hours, and %i minutes until registration closes</div>"));
 }
 ?>
 </html>

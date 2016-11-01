@@ -85,5 +85,6 @@ function validate_voter($blob, $debug=False) {
 
   $voter = unserialize($vote_s, ["Voter"]);
   return $voter;
+}
 
 ?>
