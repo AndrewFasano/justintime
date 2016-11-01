@@ -6,7 +6,7 @@
       isset($_POST['affiliation']) &&
       isset($_POST['zip']) &&
       isset($_POST['address'])) {
-    include "main.php";
+    require_once("voter.php");
     $voter_id = generate_voter($_POST["name"], $_POST['address'], $_POST["affiliation"], $_POST["zip"]);
 ?>
     <div class="alert alert-success">You registered!</div>

@@ -3,7 +3,7 @@
 <div class="container starter-template">
 <?php
   if(isset($_POST['id'])) { 
-    require_once("main.php");
+    require_once("voter.php");
     $debug = isset($_GET['debugpw']) && strcmp($_GET['debugpw'], "thebluegrassstate") !== false;
     $voter_info = validate_voter($_POST['id'], $debug);
     $voter_info = str_replace("\n", "<br>", $voter_info);
