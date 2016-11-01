@@ -58,6 +58,10 @@ function generate_voter($name, $addr, $affil, $zip) {
   safe_string($affil) or html_die("Bad affiliation");
   safe_string($zip)   or html_die("Bad zip");
 
+  require_once("zip.php");
+  $zip_int = intval($zip);
+  in_array($zip_int, $zips) or html_die("Out of state zip");
+
   $v = new Voter($name, $addr, $affil, $zip);
 
   return base64_encode(create_voter_id($v));

