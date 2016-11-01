@@ -1,4 +1,5 @@
 <?php
+  $page = __FILE__; 
   require_once("util.php");
 ?>
 <!DOCTYPE html>
