@@ -1,6 +1,12 @@
 WEB 300
 
 Just In Time
-Flag: flag{L3tsDothe7imeWarp!}
 
-TODO ARG here
+Acceptable Flags:
+  F1:A6:FA:11:C0:DE:CO:11:DE:5L:0C:AL:E5
+        FA:11:C0:DE:CO:11:DE:5L:0C:AL:E5
+        FA11C0DECO11DE5L0CALE5
+
+Somebody broke into Kentucky's voter registration system last week but nobody's saying who it was, just that the system has been patched. Can you find a new way into their management system and identify the attacker? After registration closes, the site will be taken offline so don't miss your chance.
+
+Note: This challenge uses a slightly nonstandard flag format
