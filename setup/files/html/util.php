@@ -58,32 +58,5 @@ function get_system_key() {
   return $key;
 }
 
-function is_test_voter($name) {
-  $f = "./data/$name/debug";
-  if (file_exists($f)) {
-    $debug_timestamp = file_get_contents($f);
-    $debug_after = DateTime::createFromFormat('m/d/y H:i', $debug_timestamp);
-
-    $now = new DateTime();
-    if ($now >= $debug_after) {
-      return True;
-    }
-  }
-  return False;
-}
-
-function mark_test_voter($name, $raw_date=null) {
-  $f = "./data/$name/debug";
-  if (file_exists($f)) return;
-
-  if (!isset($raw_date)) $raw_date = new DateTime();
-  $date = $raw_date->format('m/d/y H:i');
-
-  file_put_contents($f, $date) or die("Couldn't mark $name as test voter" . PHP_EOL);
-  chmod($f, 0400);
-
-  file_put_contents("./data/$name/log", "Marked $name as test voter effective $date" . PHP_EOL, FILE_APPEND);
-
-}
 require_once("vars.php");
 ?>
